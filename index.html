@@ -120,6 +120,12 @@
             width: clamp(40px, 10vw, 55px);
             height: clamp(40px, 10vw, 55px);
             filter: drop-shadow(0 0 10px rgba(255, 200, 100, 0.7));
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
         }
 
         .kitten img {
@@ -127,6 +133,11 @@
             height: 100%;
             object-fit: contain;
             border-radius: 50%;
+        }
+
+        .kitten-emoji {
+            font-size: 30px;
+            display: none;
         }
 
         .kitten-orbit {
@@ -227,19 +238,27 @@
             50% { opacity: 1; }
         }
 
-        /* Bouton upload */
-        .upload-btn {
+        /* Boutons upload */
+        .upload-buttons {
             position: absolute;
             bottom: -22%;
             left: 50%;
             transform: translateX(-50%);
-            padding: clamp(10px, 2.5vw, 12px) clamp(20px, 5vw, 28px);
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 90%;
+        }
+
+        .upload-btn {
+            padding: clamp(10px, 2.5vw, 12px) clamp(15px, 4vw, 22px);
             background: linear-gradient(135deg, #c9a84c, #8b6914);
             color: white;
             border: none;
             border-radius: 25px;
             cursor: pointer;
-            font-size: clamp(12px, 3vw, 14px);
+            font-size: clamp(11px, 2.8vw, 13px);
             font-family: 'Georgia', serif;
             letter-spacing: 1px;
             transition: all 0.3s ease;
@@ -249,12 +268,21 @@
         }
 
         .upload-btn:hover, .upload-btn:active {
-            transform: translateX(-50%) scale(1.05);
+            transform: scale(1.05);
             box-shadow: 0 6px 20px rgba(201, 168, 76, 0.5);
         }
 
         .upload-btn input {
             display: none;
+        }
+
+        .upload-btn.gallery {
+            background: linear-gradient(135deg, #6a3093, #a044ff);
+            box-shadow: 0 4px 15px rgba(106, 48, 147, 0.3);
+        }
+
+        .upload-btn.gallery:hover, .upload-btn.gallery:active {
+            box-shadow: 0 6px 20px rgba(106, 48, 147, 0.5);
         }
 
         /* Anneaux décoratifs */
@@ -320,6 +348,21 @@
 
             .kitten:nth-child(1) { margin-left: -19px; }
             .kitten:nth-child(4) { margin-left: -19px; }
+
+            .kitten-emoji {
+                font-size: 24px;
+            }
+
+            .upload-buttons {
+                flex-direction: column;
+                align-items: center;
+                bottom: -28%;
+            }
+
+            .upload-btn {
+                width: 80%;
+                text-align: center;
+            }
         }
 
         @media (max-height: 700px) and (max-width: 480px) {
@@ -363,7 +406,7 @@
                 bottom: -18%;
             }
 
-            .upload-btn {
+            .upload-buttons {
                 bottom: -28%;
             }
         }
@@ -385,44 +428,56 @@
         <!-- Orbite 1 - Chatons GIF -->
         <div class="orbit">
             <div class="kitten kitten-orbit">
-                <img src="https://media.giphy.com/media/LoTu2rQPpj7CeSQztG/giphy.gif" alt="chaton">
+                <img src="https://media.giphy.com/media/LoTu2rQPpj7CeSQztG/giphy.gif" alt="chaton" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="kitten-emoji">🐱</span>
             </div>
             <div class="kitten kitten-orbit">
-                <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" alt="chaton">
+                <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" alt="chaton" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="kitten-emoji">😺</span>
             </div>
             <div class="kitten kitten-orbit">
-                <img src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif" alt="chaton">
+                <img src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif" alt="chaton" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="kitten-emoji">😸</span>
             </div>
             <div class="kitten kitten-orbit">
-                <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" alt="chaton">
+                <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" alt="chaton" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="kitten-emoji">🐾</span>
             </div>
             <div class="kitten kitten-orbit">
-                <img src="https://media.giphy.com/media/VbnUQpnihPSIgIXuZv/giphy.gif" alt="chaton">
+                <img src="https://media.giphy.com/media/VbnUQpnihPSIgIXuZv/giphy.gif" alt="chaton" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="kitten-emoji">😻</span>
             </div>
             <div class="kitten kitten-orbit">
-                <img src="https://media.giphy.com/media/10dQjJ15A83mDK/giphy.gif" alt="chaton">
+                <img src="https://media.giphy.com/media/10dQjJ15A83mDK/giphy.gif" alt="chaton" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="kitten-emoji"></span>
             </div>
         </div>
 
         <!-- Orbite 2 - Chatons sens inverse -->
         <div class="orbit orbit-reverse">
             <div class="kitten kitten-orbit-reverse">
-                <img src="https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif" alt="chaton">
+                <img src="https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif" alt="chaton" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="kitten-emoji">😽</span>
             </div>
             <div class="kitten kitten-orbit-reverse">
-                <img src="https://media.giphy.com/media/3o6Zt6ML6BklcajjsA/giphy.gif" alt="chaton">
+                <img src="https://media.giphy.com/media/3o6Zt6ML6BklcajjsA/giphy.gif" alt="chaton" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="kitten-emoji">🙀</span>
             </div>
             <div class="kitten kitten-orbit-reverse">
-                <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="chaton">
+                <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="chaton" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="kitten-emoji">😹</span>
             </div>
             <div class="kitten kitten-orbit-reverse">
-                <img src="https://media.giphy.com/media/3o6ZsYH0LlF1Y4gOdy/giphy.gif" alt="chaton">
+                <img src="https://media.giphy.com/media/3o6ZsYH0LlF1Y4gOdy/giphy.gif" alt="chaton" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="kitten-emoji">😼</span>
             </div>
             <div class="kitten kitten-orbit-reverse">
-                <img src="https://media.giphy.com/media/nqYXNf3aK4gkE/giphy.gif" alt="chaton">
+                <img src="https://media.giphy.com/media/nqYXNf3aK4gkE/giphy.gif" alt="chaton" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="kitten-emoji"></span>
             </div>
             <div class="kitten kitten-orbit-reverse">
-                <img src="https://media.giphy.com/media/4f8lMnFvXJyDe/giphy.gif" alt="chaton">
+                <img src="https://media.giphy.com/media/4f8lMnFvXJyDe/giphy.gif" alt="chaton" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="kitten-emoji">😺</span>
             </div>
         </div>
 
@@ -445,11 +500,19 @@
         <!-- Titre -->
         <div class="title">✨ Royale Majesté ✨</div>
 
-        <!-- Bouton upload -->
-        <label class="upload-btn" id="uploadBtn">
-            📷 Ajouter ma photo
-            <input type="file" id="fileInput" accept="image/*" capture="environment">
-        </label>
+        <!-- Boutons upload -->
+        <div class="upload-buttons" id="uploadBtn">
+            <!-- Bouton Galerie (sans capture - ouvre le sélecteur de fichiers) -->
+            <label class="upload-btn gallery">
+                🖼️ Galerie
+                <input type="file" id="galleryInput" accept="image/*">
+            </label>
+            <!-- Bouton Caméra (avec capture - ouvre directement la caméra) -->
+            <label class="upload-btn">
+                📷 Caméra
+                <input type="file" id="cameraInput" accept="image/*" capture="environment">
+            </label>
+        </div>
     </div>
 
     <script>
@@ -483,28 +546,51 @@
         }
 
         // Gestion de l'upload de photo
-        const fileInput = document.getElementById('fileInput');
+        const galleryInput = document.getElementById('galleryInput');
+        const cameraInput = document.getElementById('cameraInput');
         const photo = document.getElementById('photo');
         const placeholder = document.getElementById('placeholder');
         const photoCircle = document.getElementById('photoCircle');
-        const uploadBtn = document.getElementById('uploadBtn');
 
-        fileInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
+        // Fonction pour afficher la photo
+        function displayPhoto(file) {
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     photo.src = event.target.result;
                     photo.style.display = 'block';
                     placeholder.style.display = 'none';
+                    
+                    // Sauvegarde dans localStorage
+                    localStorage.setItem('profilePhoto', event.target.result);
                 };
                 reader.readAsDataURL(file);
             }
+        }
+
+        // Upload depuis la galerie
+        galleryInput.addEventListener('change', function(e) {
+            displayPhoto(e.target.files[0]);
         });
 
-        // Clic sur le cercle pour uploader
+        // Upload depuis la caméra
+        cameraInput.addEventListener('change', function(e) {
+            displayPhoto(e.target.files[0]);
+        });
+
+        // Clic sur le cercle pour ouvrir la galerie
         photoCircle.addEventListener('click', function() {
-            fileInput.click();
+            galleryInput.click();
+        });
+
+        // Charger la photo sauvegardée
+        window.addEventListener('load', function() {
+            const savedPhoto = localStorage.getItem('profilePhoto');
+            if (savedPhoto) {
+                photo.src = savedPhoto;
+                photo.style.display = 'block';
+                placeholder.style.display = 'none';
+            }
         });
 
         // Empêcher le double-tap zoom sur mobile
@@ -517,7 +603,7 @@
             lastTouchEnd = now;
         }, false);
 
-        // Ajuster la position du bouton upload selon la taille de l'écran
+        // Ajuster la position des boutons selon la taille de l'écran
         function adjustLayout() {
             const vh = window.innerHeight;
             const containerEl = document.querySelector('.container');
@@ -525,9 +611,12 @@
             const containerTop = containerEl.getBoundingClientRect().top;
             const availableSpace = vh - containerTop - containerHeight;
 
+            const uploadButtons = document.querySelector('.upload-buttons');
+            const title = document.querySelector('.title');
+
             if (availableSpace < 120) {
-                uploadBtn.style.bottom = '-30%';
-                document.querySelector('.title').style.bottom = '-18%';
+                uploadButtons.style.bottom = '-32%';
+                title.style.bottom = '-18%';
             }
         }
 
