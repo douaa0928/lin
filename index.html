@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Photo Royale avec Chatons</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ============================================ */
+        /* BACKGROUND - INSTRUCTIONS */
+        /* ============================================ */
+        /* Placez ce fichier HTML dans le même dossier que heart-bg.jpg */
+        /* Dossier: C:\Users\DELL\Downloads\ */
+        /* Assurez-vous que les deux fichiers sont côte à côte */
+        /* ============================================ */
+
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Georgia', serif;
+            overflow: hidden;
+            touch-action: manipulation;
+            /* BACKGROUND IMAGE - heart-bg.jpg doit être dans le même dossier */
+            background-image: url("C:\\Users\\DELL\\Downloads\\heart-bg.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* Overlay léger pour assombrir légèrement le fond et faire ressortir les éléments */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 240, 245, 0.25);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            width: min(90vw, 500px);
+            height: min(90vw, 500px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Halo lumineux derrière */
+        .glow {
+            position: absolute;
+            width: 70%;
+            height: 70%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 180, 200, 0.4) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        /* Cercle de la photo */
+        .photo-circle {
+            position: relative;
+            width: 50%;
+            height: 50%;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #c9a84c;
+            box-shadow: 
+                0 0 20px rgba(201, 168, 76, 0.5),
+                0 0 40px rgba(255, 150, 180, 0.3),
+                inset 0 0 20px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            background: #fff5f7;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .photo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #c9a84c;
+            font-size: clamp(10px, 2.5vw, 14px);
+            text-align: center;
+            padding: 15px;
+            cursor: pointer;
+        }
+
+        .photo-placeholder .icon {
+            font-size: clamp(30px, 8vw, 50px);
+            margin-bottom: 8px;
+        }
+
+        /* Orbite des chatons */
+        .orbit {
+            position: absolute;
+            width: 88%;
+            height: 88%;
+            border-radius: 50%;
+            animation: rotate 18s linear infinite;
+        }
+
+        .orbit-reverse {
+            width: 98%;
+            height: 98%;
+            animation: rotate-reverse 22s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes rotate-reverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+
+        .kitten {
+            position: absolute;
+            width: clamp(40px, 10vw, 55px);
+            height: clamp(40px, 10vw, 55px);
+            filter: drop-shadow(0 0 10px rgba(255, 150, 180, 0.8));
+        }
+
+        .kitten img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .kitten-orbit {
+            animation: counter-rotate 18s linear infinite;
+        }
+
+        .kitten-orbit-reverse {
+            animation: counter-rotate-reverse 22s linear infinite;
+        }
+
+        @keyframes counter-rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(-360deg); }
+        }
+
+        @keyframes counter-rotate-reverse {
+            from { transform: rotate(-360deg); }
+            to { transform: rotate(0deg); }
+        }
+
+        /* Position des chatons sur l'orbite */
+        .kitten:nth-child(1) { top: -12%; left: 50%; margin-left: calc(clamp(40px, 10vw, 55px) / -2); }
+        .kitten:nth-child(2) { top: 12%; right: -8%; }
+        .kitten:nth-child(3) { bottom: 12%; right: -8%; }
+        .kitten:nth-child(4) { bottom: -12%; left: 50%; margin-left: calc(clamp(40px, 10vw, 55px) / -2); }
+        .kitten:nth-child(5) { bottom: 12%; left: -8%; }
+        .kitten:nth-child(6) { top: 12%; left: -8%; }
+
+        /* Couronne en saphir */
+        .crown-container {
+            position: absolute;
+            top: -8%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .crown {
+            width: clamp(80px, 22vw, 140px);
+            height: clamp(60px, 16vw, 100px);
+            animation: spin-crown 5s linear infinite;
+            filter: drop-shadow(0 0 20px rgba(30, 100, 255, 0.7));
+        }
+
+        .crown img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(-50%) translateY(0px); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        @keyframes spin-crown {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        /* Titre */
+        .title {
+            position: absolute;
+            bottom: -14%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #c9a84c;
+            font-size: clamp(16px, 4vw, 22px);
+            text-align: center;
+            text-shadow: 0 0 10px rgba(201, 168, 76, 0.5), 2px 2px 4px rgba(255, 255, 255, 0.8);
+            white-space: nowrap;
+            letter-spacing: 2px;
+        }
+
+        /* Étoiles de fond */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #c9a84c;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        /* Bouton upload photo profil */
+        .upload-btn {
+            position: absolute;
+            bottom: -22%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: clamp(10px, 2.5vw, 12px) clamp(20px, 5vw, 28px);
+            background: linear-gradient(135deg, #c9a84c, #8b6914);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: clamp(12px, 3vw, 14px);
+            font-family: 'Georgia', serif;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(201, 168, 76, 0.3);
+            white-space: nowrap;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .upload-btn:hover, .upload-btn:active {
+            transform: translateX(-50%) scale(1.05);
+            box-shadow: 0 6px 20px rgba(201, 168, 76, 0.5);
+        }
+
+        .upload-btn input {
+            display: none;
+        }
+
+        /* Anneaux décoratifs */
+        .ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(201, 168, 76, 0.2);
+        }
+
+        .ring-1 {
+            width: 64%;
+            height: 64%;
+            animation: ring-pulse 4s ease-in-out infinite;
+        }
+
+        .ring-2 {
+            width: 76%;
+            height: 76%;
+            animation: ring-pulse 4s ease-in-out infinite 1s;
+        }
+
+        @keyframes ring-pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.05); }
+        }
+
+        /* Particules scintillantes */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #c9a84c;
+            border-radius: 50%;
+            animation: sparkle 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        /* === MOBILE RESPONSIVE === */
+        @media (max-width: 480px) {
+            body {
+                align-items: flex-start;
+                padding-top: 12vh;
+            }
+
+            .container {
+                width: 85vw;
+                height: 85vw;
+            }
+
+            .photo-circle {
+                border-width: 3px;
+            }
+
+            .kitten {
+                width: 38px;
+                height: 38px;
+            }
+
+            .kitten:nth-child(1) { margin-left: -19px; }
+            .kitten:nth-child(4) { margin-left: -19px; }
+        }
+
+        @media (max-height: 700px) and (max-width: 480px) {
+            body {
+                padding-top: 8vh;
+            }
+
+            .container {
+                width: 75vw;
+                height: 75vw;
+            }
+
+            .crown-container {
+                top: -6%;
+            }
+        }
+
+        @media (max-height: 600px) {
+            body {
+                padding-top: 5vh;
+            }
+
+            .container {
+                width: 65vw;
+                height: 65vw;
+            }
+        }
+
+        /* Landscape mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            body {
+                padding-top: 2vh;
+            }
+
+            .container {
+                width: 55vh;
+                height: 55vh;
+            }
+
+            .title {
+                bottom: -18%;
+            }
+
+            .upload-btn {
+                bottom: -28%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Étoiles de fond -->
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <!-- Halo -->
+        <div class="glow"></div>
+
+        <!-- Anneaux décoratifs -->
+        <div class="ring ring-1"></div>
+        <div class="ring ring-2"></div>
+
+        <!-- Orbite 1 - Chatons GIF -->
+        <div class="orbit">
+            <div class="kitten kitten-orbit">
+                <img src="https://media.giphy.com/media/LoTu2rQPpj7CeSQztG/giphy.gif" alt="chaton">
+            </div>
+            <div class="kitten kitten-orbit">
+                <img src="C:\\Users\\DELL\\Downloads\\cat_heart.gif" alt="chaton">
+            </div>
+            <div class="kitten kitten-orbit">
+                <img src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif" alt="chaton">
+            </div>
+            <div class="kitten kitten-orbit">
+                <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" alt="chaton">
+            </div>
+            <div class="kitten kitten-orbit">
+                <img src="https://media.giphy.com/media/VbnUQpnihPSIgIXuZv/giphy.gif" alt="chaton">
+            </div>
+            <div class="kitten kitten-orbit">
+                <img src="C:\\Users\\DELL\\Downloads\\cat_dance.gif" alt="chaton">
+            </div>
+        </div>
+
+        <!-- Orbite 2 - Chatons sens inverse -->
+        <div class="orbit orbit-reverse">
+            <div class="kitten kitten-orbit-reverse">
+                <img src="https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif" alt="chaton">
+            </div>
+            <div class="kitten kitten-orbit-reverse">
+                <img src="C:\\Users\\DELL\\Downloads\\say-it-to-my-face-cat.png" alt="chaton">
+            </div>
+            <div class="kitten kitten-orbit-reverse">
+                <img src="C:\\Users\\DELL\\Downloads\\Hello copy.jpg" alt="chaton">
+            </div>
+            <div class="kitten kitten-orbit-reverse">
+                <img src="C:\\Users\\DELL\\Downloads\\cat_heart.gif" alt="chaton">
+            </div>
+            <div class="kitten kitten-orbit-reverse">
+                <img src="C:\\Users\\DELL\\Downloads\\cat_dance.gif" alt="chaton">
+            </div>
+            <div class="kitten kitten-orbit-reverse">
+                <img src="C:\\Users\\DELL\\Downloads\\cat_dance.gif" alt="chaton">
+            </div>
+        </div>
+
+        <!-- Photo cercle -->
+        <div class="photo-circle" id="photoCircle">
+            <div class="photo-placeholder" id="placeholder">
+                <span class="icon">📷</span>
+                <span>Appuyez pour<br>ajouter votre photo</span>
+            </div>
+            <img id="photo" src="" alt="" style="display:none;">
+        </div>
+
+        <!-- Couronne en saphir -->
+        <div class="crown-container">
+            <div class="crown">
+                <img src="https://image.qwenlm.ai/public_source/9341a60c-19f5-420d-b13d-1f6b82d4201a/11c10620b-7d50-44f5-a7ac-6f6dd8b246c7.png" alt="Couronne en saphir">
+            </div>
+        </div>
+
+        <!-- Titre -->
+        <div class="title">✨ Royale Majesté ✨</div>
+
+        <!-- Bouton upload photo profil -->
+        <label class="upload-btn" id="uploadBtn">
+            📷 Ajouter ma photo
+            <input type="file" id="fileInput" accept="image/*" capture="environment">
+        </label>
+    </div>
+
+    <script>
+        // Générer les étoiles de fond
+        const starsContainer = document.getElementById('stars');
+        const starCount = window.innerWidth < 480 ? 30 : 60;
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.animationDuration = (2 + Math.random() * 3) + 's';
+            const size = (1 + Math.random() * 2) + 'px';
+            star.style.width = size;
+            star.style.height = size;
+            starsContainer.appendChild(star);
+        }
+
+        // Générer les particules scintillantes
+        const container = document.querySelector('.container');
+        const sparkleCount = window.innerWidth < 480 ? 8 : 15;
+        for (let i = 0; i < sparkleCount; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            sparkle.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+            container.appendChild(sparkle);
+        }
+
+        // Gestion de l'upload de photo profil
+        const fileInput = document.getElementById('fileInput');
+        const photo = document.getElementById('photo');
+        const placeholder = document.getElementById('placeholder');
+        const photoCircle = document.getElementById('photoCircle');
+        const uploadBtn = document.getElementById('uploadBtn');
+
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    photo.src = event.target.result;
+                    photo.style.display = 'block';
+                    placeholder.style.display = 'none';
+                    
+                    // Sauvegarde dans localStorage
+                    localStorage.setItem('profilePhoto', event.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Charger la photo profil sauvegardée
+        window.addEventListener('load', function() {
+            const savedPhoto = localStorage.getItem('profilePhoto');
+            if (savedPhoto) {
+                photo.src = savedPhoto;
+                photo.style.display = 'block';
+                placeholder.style.display = 'none';
+            }
+        });
+
+        // Clic sur le cercle pour uploader
+        photoCircle.addEventListener('click', function() {
+            fileInput.click();
+        });
+
+        // Empêcher le double-tap zoom sur mobile
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Ajuster la position du bouton upload selon la taille de l'écran
+        function adjustLayout() {
+            const vh = window.innerHeight;
+            const containerEl = document.querySelector('.container');
+            const containerHeight = containerEl.offsetHeight;
+            const containerTop = containerEl.getBoundingClientRect().top;
+            const availableSpace = vh - containerTop - containerHeight;
+
+            if (availableSpace < 120) {
+                uploadBtn.style.bottom = '-30%';
+                document.querySelector('.title').style.bottom = '-18%';
+            }
+        }
+
+        window.addEventListener('resize', adjustLayout);
+        window.addEventListener('load', adjustLayout);
+    </script>
+</body>
+</html>
+
